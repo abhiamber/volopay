@@ -27,6 +27,8 @@ Clone the Repository from Github. Then do the following steps:
 ## Screenshots
 
  ### Home Page
+ ![image](https://github.com/abhiamber/volopay/assets/102507444/8a926e6c-a04b-4319-9009-bce53319abeb)
+
 
 
 
