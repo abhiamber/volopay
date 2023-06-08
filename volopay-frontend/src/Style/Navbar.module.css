@@ -1,26 +1,10 @@
 .Navbar {
   background: #92bcb5;
-  padding: 15px;
-  margin: auto;
+  padding: 15px 50px;
+  text-decoration: none;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 25px 50px;
-}
-.Navbar > a {
-  text-decoration: none;
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 32px;
-  text-align: center;
-}
-
-.Navbar {
-  text-decoration: none;
-  padding: 10px;
-  display: "contents";
-  justify-content: space-between;
+  gap: 20px;
+  justify-content: space-around;
   align-items: center;
   gap: 30px;
   cursor: pointer;
@@ -33,4 +17,14 @@
 .Navbar > a:hover {
   color: #949998;
   transition: all 0.3s ease;
+}
+
+.Navbar > a {
+  text-decoration: none;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 32px;
+  text-align: center;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "../Style/Home.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -7,18 +7,42 @@ const HomePage = () => {
   let [data, setData] = useState("");
   let [loading, setLoading] = useState(false);
   let [eroor, setError] = useState(false);
+  let [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const containerRef = useRef(null);
 
   const getData = async () => {
-    let res = await fetch("https://json-server-mock-60xa.onrender.com/data");
+    let res = await fetch(
+      `https://json-server-mock-60xa.onrender.com/data?_page=${page}&_limit=5`
+    );
     setLoading(true);
     try {
-      let data = await res.json();
-      setData([...data]);
+      let datas = await res.json();
+      setData([...data, ...datas]);
       setLoading(false);
+      if (data.length === 0) {
+        setHasMore(false);
+      }
     } catch (err) {
       setLoading(false);
       setError(true);
-      console.log(err);
+      // console.log(err);
+    }
+  };
+
+  const handleScroll = () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop;
+
+    if (documentHeight - (scrollTop + windowHeight) < 100 && hasMore) {
+      // Load more items if scrolled close to the bottom and there are more items to load
+      setPage((prevPage) => prevPage + 1);
+    } else {
+      setPage(1);
     }
   };
 
@@ -60,8 +84,17 @@ const HomePage = () => {
 
   useEffect(() => {
     getData();
+  }, [page]);
+
+  useEffect(() => {
+    // console.log(container);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
-  console.log(data);
+  // console.log(data);
 
   if (loading) {
     return <h1>Loading.............</h1>;
@@ -93,11 +126,15 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div className={style.profiles}>
+        <div
+          className={style.profiles}
+          ref={containerRef}
+          // style={{ height: "400px" }}
+        >
           {data &&
             data.map((elem, index) => {
               return (
-                <div key={elem.owner_id}>
+                <div key={index}>
                   <p>{elem.card_type} </p>
                   <h1>{elem.budget_name}</h1>
                   <span>
@@ -120,6 +157,7 @@ const HomePage = () => {
               );
             })}
         </div>
+        {hasMore && <div>Loading more...</div>}
       </div>
     </div>
   );
