@@ -3,37 +3,21 @@
   font-family: "Work Sans", sans-serif;
   height: auto;
   color: whitesmoke;
-  min-height: 500px;
+  min-height: 100vh;
+
   background-size: cover;
   background-attachment: fixed;
   font-family: "Ubuntu", sans-serif;
   width: 100%;
   background: #000000;
-  background: -webkit-linear-gradient(to bottom, #434343, #000000);
-  background: linear-gradient(to bottom, #434343, #000000);
   margin-top: -40px;
   margin-bottom: 20px;
 }
 
-.about {
-  font-family: "Source Code Pro", monospace;
-  font-family: "Work Sans", sans-serif;
-  color: whitesmoke;
-  height: auto;
-  min-height: 500px;
-  width: 100%;
-  background: #3c3b3f;
-  background: #000000;
-  background: -webkit-linear-gradient(to bottom, #434343, #000000);
-  background: linear-gradient(to bottom, #434343, #000000);
-}
-
 .titles > p {
   padding-top: 60px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: whitesmoke;
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: 400;
   text-decoration: underline 2px;
   text-align: center;
@@ -77,7 +61,7 @@
   -ms-transition: 0.8 ease-out;
   -o-transition: 0.8 ease-out;
   color: black;
-  background: #92bcb5;
+  background: purple;
 }
 
 .hoisting > button {

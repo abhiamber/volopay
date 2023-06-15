@@ -1,14 +1,13 @@
 .Navbar {
-  background: #92bcb5;
-  padding: 15px 50px;
+  background: purple;
+  padding: 12px;
+  padding-bottom: 18px;
   text-decoration: none;
   display: flex;
   gap: 20px;
   justify-content: space-around;
   align-items: center;
-  gap: 30px;
   cursor: pointer;
-  font-size: 20px;
   color: #fff;
   font-weight: 600;
   transition: color 0.3s ease;
@@ -25,6 +24,6 @@
   color: black;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 32px;
+  font-size: 26px;
   text-align: center;
 }

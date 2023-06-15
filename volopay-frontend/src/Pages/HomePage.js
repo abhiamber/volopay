@@ -1,48 +1,35 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "../Style/Home.module.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   let [search, setSearch] = useState("");
   let [data, setData] = useState("");
-  let [loading, setLoading] = useState(false);
-  let [eroor, setError] = useState(false);
   let [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const containerRef = useRef(null);
+  let [loading, setLoadiing] = useState(true);
 
   const getData = async () => {
     let res = await fetch(
       `https://json-server-mock-60xa.onrender.com/data?_page=${page}&_limit=5`
     );
-    setLoading(true);
     try {
       let datas = await res.json();
-      setData([...data, ...datas]);
-      setLoading(false);
-      if (data.length === 0) {
-        setHasMore(false);
+      setData((prevItems) => [...prevItems, ...datas]);
+      if (datas.length === 0) {
+        setLoadiing(false);
       }
     } catch (err) {
-      setLoading(false);
-      setError(true);
-      // console.log(err);
+      console.log(err);
     }
   };
 
   const handleScroll = () => {
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    const scrollTop =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop;
+    let scrollHeight = document.documentElement.scrollHeight;
+    let scrollTop = document.documentElement.scrollTop;
+    let innerHeight = window.innerHeight;
 
-    if (documentHeight - (scrollTop + windowHeight) < 100 && hasMore) {
-      // Load more items if scrolled close to the bottom and there are more items to load
-      setPage((prevPage) => prevPage + 1);
-    } else {
-      setPage(1);
+    if (innerHeight + scrollTop + 1 >= scrollHeight) {
+      setPage((p) => p + 1);
     }
   };
 
@@ -69,15 +56,10 @@ const HomePage = () => {
 
   const filterAndSearchFunc = async (url) => {
     let res = await fetch(url);
-    setLoading(true);
     try {
       let data = await res.json();
-      console.log(data);
       setData([...data]);
-      setLoading(false);
     } catch (err) {
-      setLoading(false);
-      setError(true);
       console.log(err);
     }
   };
@@ -94,15 +76,7 @@ const HomePage = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  // console.log(data);
 
-  if (loading) {
-    return <h1>Loading.............</h1>;
-  }
-
-  if (eroor) {
-    return <h1>Error while fetching data from server..............</h1>;
-  }
   return (
     <div className={style.containers}>
       <div className={style.titles}>
@@ -126,17 +100,19 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div
-          className={style.profiles}
-          ref={containerRef}
-          // style={{ height: "400px" }}
-        >
+        <div className={style.profiles}>
           {data &&
             data.map((elem, index) => {
               return (
                 <div key={index}>
                   <p>{elem.card_type} </p>
                   <h1>{elem.budget_name}</h1>
+                  <span style={{ marginRight: "3px" }}> spent</span>
+                  <progress
+                    max={elem.available_to_spend.value / 10}
+                    value={elem.spent.value}
+                  />
+                  <br />
                   <span>
                     {" "}
                     {elem.card_type === "burner"
@@ -157,7 +133,11 @@ const HomePage = () => {
               );
             })}
         </div>
-        {hasMore && <div>Loading more...</div>}
+        {loading && (
+          <div style={{ color: "purple", fontSize: "20px" }}>
+            Loading...........
+          </div>
+        )}
       </div>
     </div>
   );
